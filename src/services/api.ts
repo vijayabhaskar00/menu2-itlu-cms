@@ -57,6 +57,20 @@ export const updateSubCategory = async (
   return response.json();
 };
 
+export const updateCategoryOrder = async (categories: Array<{ id: string; order: number }>) => {
+  const response = await fetch(`${API_BASE_URL}/categories/reorder`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ categories }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to reorder');
+  }
+
+  return response.json();
+};
+
 export const deleteSubCategory = async (categoryId: string, subCategoryId: string) => {
   const response = await fetch(
     `${API_BASE_URL}/categories/${categoryId}/subcategories/${subCategoryId}`,
