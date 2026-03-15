@@ -1,6 +1,4 @@
-import type React from "react"
-
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { X, Upload, Trash2, Plus } from "lucide-react"
 
 interface MenuItemFormProps {
@@ -18,6 +16,8 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
   const [imagePreview, setImagePreview] = useState("")
   const [status, setStatus] = useState<"available" | "unavailable" | "hidden" | "seasonal" | "coming-soon">("available")
   const [timings, setTimings] = useState([{ startTime: "", endTime: "" }])
+  const [isGlutenFree, setIsGlutenFree] = useState(false)
+  const [isVegan, setIsVegan] = useState(false)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -36,6 +36,8 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       } else {
         setTimings([{ startTime: "", endTime: "" }])
       }
+      setIsGlutenFree(item.isGlutenFree || false)
+      setIsVegan(item.isVegan || false)
     }
   }, [item])
 
@@ -90,6 +92,8 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
         image: imageFile || imagePreview,
         status,
         timings: validTimings.length > 0 ? validTimings : [{ startTime: "", endTime: "" }],
+        isGlutenFree,
+        isVegan,
       })
     }
   }
@@ -203,6 +207,34 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
                 rows={3}
               />
               <p className="text-xs text-slate-500 mt-2">Brief description for customers</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-8 p-4 bg-slate-50 rounded-xl border border-slate-200">
+            <div className="flex items-center gap-3">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={isGlutenFree}
+                  onChange={(e) => setIsGlutenFree(e.target.checked)}
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-semibold text-slate-900">Gluten Free</span>
+              </label>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={isVegan}
+                  onChange={(e) => setIsVegan(e.target.checked)}
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-semibold text-slate-900">Vegan</span>
+              </label>
             </div>
           </div>
 
