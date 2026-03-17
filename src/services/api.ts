@@ -1,5 +1,5 @@
 // const API_BASE_URL = 'https://menu-itlu-backend.onrender.com';
-// const API_BASE_URL = 'http://13.48.48.117:5500';
+// const API_BASE_URL = 'https://api2.itlu.us';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAllCategories = async () => {
@@ -90,8 +90,10 @@ export const addMenuItem = async (
     description: string;
     price: number;
     image?: File | string;
-    status: 'available' | 'unavailable' | 'hidden';
+    status: 'available' | 'unavailable' | 'hidden' | 'seasonal' | 'coming-soon';
     timings: Array<{ startTime: string; endTime: string }>;
+    isGlutenFree?: boolean;
+    isVegan?: boolean;
   }
 ) => {
   const formData = new FormData();
@@ -103,6 +105,8 @@ export const addMenuItem = async (
   
   // Convert timings array to JSON string
   formData.append('timings', JSON.stringify(data.timings));
+  formData.append('isGlutenFree', String(data.isGlutenFree || false));
+  formData.append('isVegan', String(data.isVegan || false));
 
   if (data.image instanceof File) {
     formData.append('image', data.image);
@@ -128,8 +132,10 @@ export const updateMenuItem = async (
     description: string;
     price: number;
     image?: File | string;
-    status: 'available' | 'unavailable' | 'hidden';
+    status: 'available' | 'unavailable' | 'hidden' | 'seasonal' | 'coming-soon';
     timings: Array<{ startTime: string; endTime: string }>;
+    isGlutenFree?: boolean;
+    isVegan?: boolean;
   }
 ) => {
   const formData = new FormData();
@@ -141,6 +147,8 @@ export const updateMenuItem = async (
   
   // Convert timings array to JSON string
   formData.append('timings', JSON.stringify(data.timings));
+  formData.append('isGlutenFree', String(data.isGlutenFree || false));
+  formData.append('isVegan', String(data.isVegan || false));
 
   if (data.image instanceof File) {
     formData.append('image', data.image);
@@ -194,6 +202,8 @@ export interface MenuItem {
   description: string;
   price: number;
   image?: File | string;
-  status: 'available' | 'unavailable' | 'hidden';
+  status: 'available' | 'unavailable' | 'hidden' | 'seasonal' | 'coming-soon';
   timings: Timing[];
+  isGlutenFree?: boolean;
+  isVegan?: boolean;
 }
