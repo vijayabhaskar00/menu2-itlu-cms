@@ -4,7 +4,9 @@ export interface MenuItem {
   description: string;
   price: number;
   image: string;
-  status: 'available' | 'unavailable' | 'hidden';
+  status: 'available' | 'unavailable' | 'hidden' | 'coming-soon' | 'seasonal';
+  isGlutenFree?: boolean;
+  isVegan?: boolean;
 }
 
 export interface SubCategory {
